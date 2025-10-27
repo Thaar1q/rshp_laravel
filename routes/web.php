@@ -32,8 +32,29 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Auth::routes();
 
+Auth::routes();
+
 // Dashboard per role
 Route::prefix('dashboard')->group(function () {
+    Route::get('/admin', fn() => view('admin.dashboard'))->middleware('isAdmin')->name('admin.dashboard');
+    Route::get('/dokter', fn() => view('dokter.dashboard'))->middleware('isDokter')->name('dokter.dashboard');
+    Route::get('/perawat', fn() => view('perawat.dashboard'))->middleware('isPerawat')->name('perawat.dashboard');
+    Route::get('/resepsionis', fn() => view('resepsionis.dashboard'))->middleware('isResepsionis')->name('resepsionis.dashboard');
+    Route::get('/pemilik', fn() => view('pemilik.dashboard'))->middleware('isPemilik')->name('pemilik.dashboard');
+
+// Submenu
+    // Admin
+    Route::prefix('admin')->middleware('isAdmin')->group(function () {
+        Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+        Route::get('/jenis-hewan', [JenisHewanController::class, 'index'])->name('admin.jenis-hewan');
+        Route::get('/ras-hewan', [RasHewanController::class, 'index'])->name('admin.ras-hewan');
+        Route::get('/kategori', [KategoriController::class, 'index'])->name('admin.kategori');
+        Route::get('/kategori-klinis', [KategoriKlinisController::class, 'index'])->name('admin.kategori-klinis');
+        Route::get('/kode-tindakan', [KodeTindakanTerapiController::class, 'index'])->name('admin.kode-tindakan');
+        Route::get('/pet', [PetController::class, 'index'])->name('admin.pet');
+        Route::get('/role', [RoleController::class, 'index'])->name('admin.role');
+        Route::get('/user', [UserController::class, 'index'])->name('admin.user');
+    });
     Route::get('/admin', fn() => view('admin.dashboard'))->middleware('isAdmin')->name('admin.dashboard');
     Route::get('/dokter', fn() => view('dokter.dashboard'))->middleware('isDokter')->name('dokter.dashboard');
     Route::get('/perawat', fn() => view('perawat.dashboard'))->middleware('isPerawat')->name('perawat.dashboard');
