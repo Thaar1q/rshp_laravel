@@ -23,13 +23,15 @@
         <table role="grid">
             <thead>
                 <tr>
+                    <th>ID Kode</th>
                     <th>Kode</th>
-                    <th>Nama Tindakan</th>
+                    <th>Deskripsi Tindakan</th>
+                    <th>Kategori</th>
                     <th>Kategori Klinis</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data as $tindakan)
+                @foreach ($data as $t)
                     <tr>
                         <td>{{ $t->idkode_tindakan_terapi }}</td>
                         <td>{{ $t->kode }}</td>

@@ -21,25 +21,16 @@ class RekamMedis extends Model
         'dokter_pemeriksa'
     ];
 
-    /**
-     * Hewan yang direkam (relasi ke Pet)
-     */
     public function pet()
     {
         return $this->belongsTo(Pet::class, 'idpet');
     }
 
-    /**
-     * Dokter pemeriksa (relasi ke RoleUser, bukan langsung User)
-     */
     public function dokter()
     {
         return $this->belongsTo(RoleUser::class, 'dokter_pemeriksa');
     }
 
-    /**
-     * Detail tindakan & terapi
-     */
     public function detailRekamMedis()
     {
         return $this->hasMany(DetailRekamMedis::class, 'idrekam_medis');

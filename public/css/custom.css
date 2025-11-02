@@ -1,4 +1,69 @@
-/* ---------- HERO / HOME ---------- */
+/* =========================================================
+   GLOBAL & UTILITY
+   ========================================================= */
+.center-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lead {
+  font-weight: 500;
+  color: var(--pico-primary-hover);
+}
+
+.muted {
+  color: var(--pico-muted-color);
+}
+
+/* =========================================================
+   LAYOUT & NAVIGATION
+   ========================================================= */
+.navbar-inner .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Dropdown (umum untuk navbar role/site) */
+details.dropdown summary {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--pico-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+details.dropdown summary::marker {
+  content: none;
+}
+
+details.dropdown ul {
+  list-style: none;
+  background: #fffdf5;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+details.dropdown ul li a {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  display: block;
+  color: var(--pico-primary);
+}
+
+details.dropdown ul li a:hover {
+  background: rgba(255, 240, 160, 0.2);
+}
+
+/* =========================================================
+   HOME / HERO SECTION
+   ========================================================= */
 .hero {
   background: linear-gradient(90deg, #fff7c0 0%, #fff0a0 50%, #ffe680 100%);
   padding: 2.25rem;
@@ -14,7 +79,9 @@
   line-height: 1.5;
 }
 
-/* ---------- LAYANAN (cards) ---------- */
+/* =========================================================
+   KOMPONEN / CARDS
+   ========================================================= */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -22,7 +89,9 @@
   margin-top: 1rem;
 }
 
-.service-card {
+.service-card,
+.team-card,
+.contact-card {
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
@@ -33,8 +102,9 @@
   min-height: 110px;
 }
 
-.service-card h4 {
-  margin: 0;
+.service-card h4,
+.team-card h4 {
+  margin: 0.25rem 0;
   font-size: 1.05rem;
 }
 
@@ -55,56 +125,12 @@
   align-self: flex-start;
 }
 
-.span-2 {
-  grid-column: span 2;
-}
-
-@media (max-width:860px) {
-  .span-2 {
-    grid-column: auto;
-  }
-}
-
-/* ---------- KONTAK / MAP ---------- */
-.map-wrapper {
-  width: 100%;
-  height: 360px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-}
-
-@media (min-width: 900px) {
-  .map-wrapper {
-    height: 420px;
-  }
-}
-
-.contact-card {
-  padding: 1rem;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #fffdf5, #fffaf0);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
-}
-
-/* --- Organisasi / Team --- */
+/* --- Team / Struktur Organisasi --- */
 .team-grid {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: 1rem;
-}
-
-.team-card {
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
-  background: linear-gradient(180deg, rgba(255, 253, 245, 1), rgba(255, 250, 240, 1));
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  min-height: 110px;
-  text-align: center;
 }
 
 .team-card img {
@@ -117,94 +143,99 @@
   border: 4px solid rgba(255, 255, 255, 0.6);
 }
 
-.team-card h4 {
-  margin: 0.25rem 0 0.25rem;
-}
-
 .team-card p.role {
   margin: 0;
   color: var(--pico-muted-color);
   font-size: 0.95rem;
 }
 
-/* --- Tabel --- */
-table[role="grid"] {
+/* =========================================================
+   TABEL & DATA VIEW
+   ========================================================= */
+table {
   width: 100%;
-  border-radius: 8px;
+  border-collapse: collapse;
+  border-radius: 10px;
   overflow: hidden;
-  background: #fffdf5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
-table[role="grid"] th,
-table[role="grid"] td {
-  padding: 0.5rem 0.75rem;
+th,
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-table[role="grid"] tbody tr:hover {
-  background: rgba(255, 240, 180, 0.25);
+th {
+  background-color: #fff8d9;
+  font-weight: 600;
+  text-align: left;
 }
 
-/* --- Login --- */
+tr:hover {
+  background-color: rgba(255, 250, 200, 0.3);
+}
+
+/* =========================================================
+   FORM & LOGIN
+   ========================================================= */
 .login-page {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .login-card {
-  max-width: 380px;
   width: 100%;
+  max-width: 420px;
+  background: linear-gradient(180deg, #fffdf5, #fffaf0);
   padding: 2rem;
   border-radius: 12px;
-  background: linear-gradient(180deg, #fffdf5, #fffaf0);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .login-card h2 {
+  text-align: center;
   margin-bottom: 1rem;
-}
-
-form>*:not(:last-child) {
-  margin-bottom: 0.75rem;
+  color: var(--pico-primary);
 }
 
 .form-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
-/* ---------- Utility kecil ---------- */
-.center-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 0.5rem;
+/* =========================================================
+   KONTAK & MAP
+   ========================================================= */
+.map-wrapper {
+  width: 100%;
+  height: 360px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-.lead {
-  font-weight: 500;
-  color: var(--pico-primary-hover);
-}
-
-.muted {
-  color: var(--pico-muted-color);
-}
-
-/* kecil: responsive spacing for container inside full-width navbar */
-.navbar-inner .container {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-/* ensure no inline style needed for iframes */
 .map-wrapper iframe {
   width: 100%;
   height: 100%;
   border: 0;
   display: block;
+}
+
+@media (min-width: 900px) {
+  .map-wrapper {
+    height: 420px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVENESS
+   ========================================================= */
+@media (min-width: 900px) {
+  .span-2 {
+    grid-column: span 2;
+  }
 }

@@ -27,43 +27,43 @@
             </article>
 
             <article class="service-card" aria-labelledby="m-role">
-                <h4 id="m-user">Role</h4>
+                <h4 id="m-role">Role</h4>
                 <p class="short">Peran pengguna RSHP.</p>
                 <small class="muted"><a href="admin/role">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-pet">
-                <h4 id="m-user">Pet</h4>
+                <h4 id="m-pet">Pet</h4>
                 <p class="short">Data hewan peliharaan.</p>
                 <small class="muted"><a href="admin/pet">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-jenis-hewan">
-                <h4 id="m-user">Jenis Hewan</h4>
+                <h4 id="m-jenis-hewan">Jenis Hewan</h4>
                 <p class="short">List jenis hewan terdaftar.</p>
                 <small class="muted"><a href="admin/jenis-hewan">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-ras-hewan">
-                <h4 id="m-user">Ras Hewan</h4>
+                <h4 id="m-ras-hewan">Ras Hewan</h4>
                 <p class="short">Ras berdasarkan jenis.</p>
                 <small class="muted"><a href="admin/ras-hewan">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kategori">
-                <h4 id="m-user">Kategori</h4>
+                <h4 id="m-kategori">Kategori</h4>
                 <p class="short">Kategori tindakan klinis.</p>
                 <small class="muted"><a href="admin/kategori">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kategori-klinis">
-                <h4 id="m-user">Kategori Klinis</h4>
-                <p class="short">Klasifikasi Terapi / Tindakan.</p>
+                <h4 id="m-kategori-klinis">Kategori Klinis</h4>
+                <p class="short">Klasifikasi terapi / tindakan.</p>
                 <small class="muted"><a href="admin/kategori-klinis">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kode-tindakan">
-                <h4 id="m-user">Kode Tindakan Terapi</h4>
+                <h4 id="m-kode-tindakan">Kode Tindakan Terapi</h4>
                 <p class="short">Kode & deskripsi tindakan.</p>
                 <small class="muted"><a href="admin/kode-tindakan">Lihat Data</a></small>
             </article>
