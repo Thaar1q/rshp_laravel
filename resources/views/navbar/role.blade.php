@@ -1,7 +1,11 @@
 @php
-$role = session('role') ?? strtolower(Auth::user()->roleUser->role->nama_role ?? '');
+    $role = null;
+    if (Auth::check()) {
+        $role = strtolower(Auth::user()->roleUser->first()->role->nama_role ?? '');
+    }
 @endphp
 
+@if(Auth::check())
 <html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
@@ -14,7 +18,7 @@ $role = session('role') ?? strtolower(Auth::user()->roleUser->role->nama_role ??
         <header>
             <nav style="postion: sticky; top: 0">
                 <ul>
-                    <li><strong>RSHP</strong></li>
+                    <li><a href="{{ route('home') }}"><strong>RSHP</strong></a></li>
                 </ul>
                 <ul>
                     <li>
@@ -33,10 +37,10 @@ $role = session('role') ?? strtolower(Auth::user()->roleUser->role->nama_role ??
                                 <li><a href="{{ route('admin.role.index') }}">Data Role</a></li>
                                 <li><a href="{{ route('admin.pet.index') }}">Data Pet</a></li>
                                 <li><a href="{{ route('admin.jenis-hewan.index') }}">Data Jenis Hewan</a></li>
-                                <li><a href="{{ route('admin.ras-hewan') }}">Data Ras Hewan</a></li>
-                                <li><a href="{{ route('admin.kategori') }}">Data Kategori</a></li>
-                                <li><a href="{{ route('admin.kategori-klinis') }}">Data Kategori Klinis</a></li>
-                                <li><a href="{{ route('admin.kode-tindakan') }}">Data Kode Tindakan</a></li>
+                                <li><a href="{{ route('admin.ras-hewan.index') }}">Data Ras Hewan</a></li>
+                                <li><a href="{{ route('admin.kategori.index') }}">Data Kategori</a></li>
+                                <li><a href="{{ route('admin.kategori-klinis.index') }}">Data Kategori Klinis</a></li>
+                                <li><a href="{{ route('admin.kode-tindakan.index') }}">Data Kode Tindakan</a></li>
                                 @break
 
                             @case('dokter')
@@ -71,3 +75,4 @@ $role = session('role') ?? strtolower(Auth::user()->roleUser->role->nama_role ??
     </div>
 </body>
 </html>
+@endif

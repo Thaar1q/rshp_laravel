@@ -1,48 +1,45 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\site\ {
+    KontakController, LayananController, OrganisasiController, SiteController
+};
 use App\Http\Controllers\Admin\ {
-    RoleController, UserController, PetController, JenisHewanController
+    DashboardController, RoleController, UserController, PetController, JenisHewanController, RasHewanController, KategoriController, KategoriKlinisController, KodeTindakanTerapiController
 };
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\dokter\DokterController;
 use App\Http\Controllers\pemilik\PemilikController;
 use App\Http\Controllers\perawat\PerawatController;
 use App\Http\Controllers\resepsionis\ResepsionisController;
-use App\Http\Controllers\site\KontakController;
-use App\Http\Controllers\site\LayananController;
-use App\Http\Controllers\site\OrganisasiController;
-use App\Http\Controllers\site\SiteController;
 
 Route::get('/', function () {
     return view('site.home');
 });
 
-/* =========================================================
-   ROUTE SITUS UTAMA
-   ========================================================= */
-// RSHP
+/*---------------------------------------------------------
+|  ROUTE GROUP: ROLE-BASED ACCESS
+|----------------------------------------------------------*/
+/* === RSHP ============================================== */
 Route::get('/home', [SiteController::class, 'index'])->name('home');
 Route::get('/layanan', [LayananController::class, 'index'])->name('layanan');
 Route::get('/kontak', [KontakController::class, 'index'])->name('kontak');
 Route::get('/organisasi', [OrganisasiController::class, 'index'])->name('organisasi');
 
-// Login & logout
+/* === LOGIN DAN LOGOUT ========================= */
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'processLogin'])->name('login.process');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
+/*---------------------------------------------------------
+|  ROUTE GROUP: ROLE-BASED ACCESS
+|----------------------------------------------------------*/
+Auth::routes();
 
-/* =========================================================
-   ROUTE PER ROLE
-   ========================================================= */
-   Auth::routes();
-
-// Admin
+/* === ADMINISTRATOR ==================================== */
 Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
@@ -65,36 +62,54 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
     Route::post('/jenis-hewan/edit/{jenis}', [JenisHewanController::class, 'edit'])->name('jenis-hewan.edit');
     Route::post('/jenis-hewan/delete/{jenis}', [JenisHewanController::class, 'delete'])->name('jenis-hewan.delete');
 
+    Route::get('/ras-hewan', [RasHewanController::class, 'index'])->name('ras-hewan.index');
+    Route::post('/ras-hewan/store', [RasHewanController::class, 'store'])->name('ras-hewan.store');
+    Route::post('/ras-hewan/edit/{ras}', [RasHewanController::class, 'edit'])->name('ras-hewan.edit');
+    Route::post('/ras-hewan/delete/{ras}', [RasHewanController::class, 'delete'])->name('ras-hewan.delete');
 
-    Route::get('/ras-hewan', [AdminController::class, 'rasHewan'])->name('ras-hewan');
-    Route::get('/kategori', [AdminController::class, 'kategori'])->name('kategori');
-    Route::get('/kategori-klinis', [AdminController::class, 'kategoriKlinis'])->name('kategori-klinis');
-    Route::get('/kode-tindakan', [AdminController::class, 'kodeTindakan'])->name('kode-tindakan');
+    Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+    Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
+    Route::post('/kategori/edit/{kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::post('/kategori/delete/{kategori}', [KategoriController::class, 'delete'])->name('kategori.delete');
+
+    Route::get('/kategori-klinis', [KategoriKlinisController::class, 'index'])->name('kategori-klinis.index');
+    Route::post('/kategori-klinis/store', [KategoriKlinisController::class, 'store'])->name('kategori-klinis.store');
+    Route::post('/kategori-klinis/edit/{kategori}', [KategoriKlinisController::class, 'edit'])->name('kategori-klinis.edit');
+    Route::post('/kategori-klinis/delete/{kategori}', [KategoriKlinisController::class, 'delete'])->name('kategori-klinis.delete');
+
+    Route::get('/kode-tindakan', [KodeTindakanTerapiController::class, 'index'])->name('kode-tindakan.index');
+    Route::post('/kode-tindakan/store', [KodeTindakanTerapiController::class, 'store'])->name('kode-tindakan.store');
+    Route::post('/kode-tindakan/edit/{kode}', [KodeTindakanTerapiController::class, 'edit'])->name('kode-tindakan.edit');
+    Route::post('/kode-tindakan/delete/{kode}', [KodeTindakanTerapiController::class, 'delete'])->name('kode-tindakan.delete');
 });
-// Dokter
+
+/* === DOKTER ============================================== */
 Route::middleware('isDokter')->prefix('dokter')->name('dokter.')->group(function () {
     Route::get('/dashboard', fn() => view('dokter.dashboard'))->name('dashboard');
     Route::get('/rekam-medis', [DokterController::class, 'index'])->name('rekam-medis');
     Route::get('/rekam-medis/{id}', [DokterController::class, 'show'])->name('rekam-medis');
 });
-// Perawat
+
+/* === PERAWAT ========================================== */
 Route::prefix('perawat')->middleware(['isPerawat'])->group(function () {
     Route::get('/dashboard', fn() => view('perawat.dashboard'))->name('perawat.dashboard');
     Route::get('/rekam-medis/', [PerawatController::class, 'index'])->name('perawat.rekam-medis');
     Route::get('/rekam-medis/{id}', [PerawatController::class, 'show'])->name('perawat.rekam-medis');
 });
-// Pemilik
+
+/* === RESEPSIONIS ====================================== */
+Route::prefix('resepsionis')->middleware('isResepsionis')->group(function () {
+    Route::get('/dashboard', fn() => redirect()->route('resepsionis.pemilik'))->name('resepsionis.dashboard');
+    Route::get('/pemilik', [ResepsionisController::class, 'pemilik'])->name('resepsionis.pemilik');
+    Route::get('/pets', [ResepsionisController::class, 'pets'])->name('resepsionis.pets');
+    Route::get('/temu-dokter', [ResepsionisController::class, 'temudokter'])->name('resepsionis.temu-dokter');
+});
+
+/* === PEMILIK ========================================== */
 Route::prefix('pemilik')->middleware('isPemilik')->group(function () {
     Route::get('/dashboard', fn() => view('pemilik.dashboard'))->name('pemilik.dashboard');
     Route::get('/rekam-medis', [PemilikController::class, 'rekam'])->name('pemilik.rekam-medis');
     Route::get('/rekam-medis/{id}', [PemilikController::class, 'show'])->name('pemilik.rekam-medis');
     Route::get('/pets', [PemilikController::class, 'pets'])->name('pemilik.pets');
     Route::get('/reservasi', [PemilikController::class, 'reservasi'])->name('pemilik.reservasi');
-});
-// Resepsionis
-Route::prefix('resepsionis')->middleware('isResepsionis')->group(function () {
-    Route::get('/dashboard', fn() => redirect()->route('resepsionis.pemilik'))->name('resepsionis.dashboard');
-    Route::get('/pemilik', [ResepsionisController::class, 'pemilik'])->name('resepsionis.pemilik');
-    Route::get('/pets', [ResepsionisController::class, 'pets'])->name('resepsionis.pets');
-    Route::get('/temu-dokter', [ResepsionisController::class, 'temudokter'])->name('resepsionis.temu-dokter');
 });
