@@ -21,14 +21,26 @@ class Pet extends Model
         'idras_hewan'
     ];
 
-    public function pemilik()
-    {
-        return $this->belongsTo(Pemilik::class, 'idpemilik');
-    }
-
     public function rasHewan()
     {
-        return $this->belongsTo(RasHewan::class, 'idras_hewan');
+        return $this->belongsTo(RasHewan::class, 'idras_hewan', 'idras_hewan');
+    }
+
+    public function jenisHewan()
+    {
+        return $this->hasOneThrough(
+            JenisHewan::class,
+            RasHewan::class,
+            'idras_hewan',
+            'idjenis_hewan',
+            'idras_hewan',
+            'idjenis_hewan'
+        );
+    }
+
+    public function pemilik()
+    {
+        return $this->belongsTo(Pemilik::class, 'idpemilik', 'idpemilik');
     }
 
     public function rekamMedis()

@@ -29,8 +29,8 @@ $role = session('role') ?? strtolower(Auth::user()->roleUser->role->nama_role ??
                             @switch(strtolower($role))
                             @case('administrator')
                                 <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                <li><a href="{{ route('admin.user') }}">Data User</a></li>
-                                <li><a href="{{ route('admin.role') }}">Data Role</a></li>
+                                <li><a href="{{ route('admin.user.index') }}">Data User</a></li>
+                                <li><a href="{{ route('admin.role.index') }}">Data Role</a></li>
                                 <li><a href="{{ route('admin.pet') }}">Data Pet</a></li>
                                 <li><a href="{{ route('admin.jenis-hewan') }}">Data Jenis Hewan</a></li>
                                 <li><a href="{{ route('admin.ras-hewan') }}">Data Ras Hewan</a></li>
