@@ -55,12 +55,12 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
     Route::post('/role/delete/{role}', [RoleController::class, 'delete'])->name('role.delete');
     Route::post('/user/{user}/role/{role}/toggle', [UserController::class, 'toggleRole'])->name('user.role.toggle');
 
-    Route::get('/pet', [PetController::class, 'index'])->name('pet');
+    Route::get('/pet', [PetController::class, 'index'])->name('pet.index');
     Route::post('/pet/store', [PetController::class, 'store'])->name('pet.store');
     Route::post('/pet/edit/{pet}', [PetController::class, 'edit'])->name('pet.edit');
     Route::post('/pet/delete/{pet}', [PetController::class, 'delete'])->name('pet.delete');
 
-    Route::get('/jenis-hewan', [JenisHewanController::class, 'index'])->name('jenis-hewan');
+    Route::get('/jenis-hewan', [JenisHewanController::class, 'index'])->name('jenis-hewan.index');
     Route::post('/jenis-hewan/store', [JenisHewanController::class, 'store'])->name('jenis-hewan.store');
     Route::post('/jenis-hewan/edit/{jenis}', [JenisHewanController::class, 'edit'])->name('jenis-hewan.edit');
     Route::post('/jenis-hewan/delete/{jenis}', [JenisHewanController::class, 'delete'])->name('jenis-hewan.delete');

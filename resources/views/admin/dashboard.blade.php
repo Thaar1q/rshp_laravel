@@ -47,25 +47,25 @@
             <article class="service-card" aria-labelledby="m-ras-hewan">
                 <h4 id="m-ras-hewan">Ras Hewan</h4>
                 <p class="short">Ras berdasarkan jenis.</p>
-                <small class="muted"><a href="{{ route('admin.ras-hewan.index') }}">Lihat Data</a></small>
+                <small class="muted"><a href="{{ route('admin.ras-hewan') }}">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kategori">
                 <h4 id="m-kategori">Kategori</h4>
                 <p class="short">Kategori tindakan klinis.</p>
-                <small class="muted"><a href="{{ route('admin.kategori.index') }}">Lihat Data</a></small>
+                <small class="muted"><a href="{{ route('admin.kategori') }}">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kategori-klinis">
                 <h4 id="m-kategori-klinis">Kategori Klinis</h4>
                 <p class="short">Klasifikasi terapi / tindakan.</p>
-                <small class="muted"><a href="{{ route('admin.kategori-klinis.index') }}">Lihat Data</a></small>
+                <small class="muted"><a href="{{ route('admin.kategori-klinis') }}">Lihat Data</a></small>
             </article>
 
             <article class="service-card" aria-labelledby="m-kode-tindakan">
                 <h4 id="m-kode-tindakan">Kode Tindakan Terapi</h4>
                 <p class="short">Kode & deskripsi tindakan.</p>
-                <small class="muted"><a href="{{ route('admin.kode-tindakan.index') }}">Lihat Data</a></small>
+                <small class="muted"><a href="{{ route('admin.kode-tindakan') }}">Lihat Data</a></small>
             </article>
         </section>
     </main>
