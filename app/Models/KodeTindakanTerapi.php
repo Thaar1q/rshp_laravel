@@ -15,14 +15,8 @@ class KodeTindakanTerapi extends Model
     protected $fillable = [
         'kode',
         'deskripsi_tindakan_terapi',
-        'idkategori',
         'idkategori_klinis'
     ];
-
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'idkategori');
-    }
 
     public function kategoriKlinis()
     {
