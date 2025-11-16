@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 /*---------------------------------------------------------
-|  ROUTE GROUP: ROLE-BASED ACCESS
+|  ROUTE GROUP: MAIN WEB
 |----------------------------------------------------------*/
 /* === RSHP ============================================== */
 Route::get('/home', [SiteController::class, 'index'])->name('home');
@@ -48,9 +48,9 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
 
     Route::get('/role', [RoleController::class, 'index'])->name('role.index');
     Route::post('/role/store', [RoleController::class, 'store'])->name('role.store');
-    Route::post('/role/edit/{role}', [RoleController::class, 'edit'])->name('role.edit');
-    Route::post('/role/delete/{role}', [RoleController::class, 'delete'])->name('role.delete');
-    Route::post('/user/{user}/role/{role}/toggle', [UserController::class, 'toggleRole'])->name('user.role.toggle');
+    Route::post('/role/edit/{id}', [RoleController::class, 'edit'])->name('role.edit');
+    Route::post('/role/delete/{id}', [RoleController::class, 'delete'])->name('role.delete');
+    Route::post('/user/{user}/role/{id}/toggle', [UserController::class, 'toggleRole'])->name('user.role.toggle');
 
     Route::get('/pet', [PetController::class, 'index'])->name('pet.index');
     Route::post('/pet/store', [PetController::class, 'store'])->name('pet.store');
@@ -59,8 +59,8 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
 
     Route::get('/jenis-hewan', [JenisHewanController::class, 'index'])->name('jenis-hewan.index');
     Route::post('/jenis-hewan/store', [JenisHewanController::class, 'store'])->name('jenis-hewan.store');
-    Route::post('/jenis-hewan/edit/{jenis}', [JenisHewanController::class, 'edit'])->name('jenis-hewan.edit');
-    Route::post('/jenis-hewan/delete/{jenis}', [JenisHewanController::class, 'delete'])->name('jenis-hewan.delete');
+    Route::post('/jenis-hewan/edit/{id}', [JenisHewanController::class, 'edit'])->name('jenis-hewan.edit');
+    Route::post('/jenis-hewan/delete/{id}', [JenisHewanController::class, 'delete'])->name('jenis-hewan.delete');
 
     Route::get('/ras-hewan', [RasHewanController::class, 'index'])->name('ras-hewan.index');
     Route::post('/ras-hewan/store', [RasHewanController::class, 'store'])->name('ras-hewan.store');
@@ -69,8 +69,8 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
 
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
-    Route::post('/kategori/edit/{kategori}', [KategoriController::class, 'edit'])->name('kategori.edit');
-    Route::post('/kategori/delete/{kategori}', [KategoriController::class, 'delete'])->name('kategori.delete');
+    Route::post('/kategori/edit/{id}', [KategoriController::class, 'edit'])->name('kategori.edit');
+    Route::post('/kategori/delete/{id}', [KategoriController::class, 'delete'])->name('kategori.delete');
 
     Route::get('/kategori-klinis', [KategoriKlinisController::class, 'index'])->name('kategori-klinis.index');
     Route::post('/kategori-klinis/store', [KategoriKlinisController::class, 'store'])->name('kategori-klinis.store');
@@ -79,8 +79,8 @@ Route::middleware('isAdmin')->prefix('admin')->name('admin.')->group(function ()
 
     Route::get('/kode-tindakan', [KodeTindakanTerapiController::class, 'index'])->name('kode-tindakan.index');
     Route::post('/kode-tindakan/store', [KodeTindakanTerapiController::class, 'store'])->name('kode-tindakan.store');
-    Route::post('/kode-tindakan/edit/{kode}', [KodeTindakanTerapiController::class, 'edit'])->name('kode-tindakan.edit');
-    Route::post('/kode-tindakan/delete/{kode}', [KodeTindakanTerapiController::class, 'delete'])->name('kode-tindakan.delete');
+    Route::post('/kode-tindakan/edit/{id}', [KodeTindakanTerapiController::class, 'edit'])->name('kode-tindakan.edit');
+    Route::post('/kode-tindakan/delete/{id}', [KodeTindakanTerapiController::class, 'delete'])->name('kode-tindakan.delete');
 });
 
 /* === DOKTER ============================================== */

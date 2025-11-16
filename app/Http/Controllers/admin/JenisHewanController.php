@@ -4,53 +4,41 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\JenisHewan;
+use Illuminate\Support\Facades\DB;
 
 class JenisHewanController extends Controller
 {
-    public function index()
-    {
-        $data = JenisHewan::all();
-        return view('admin.jenis-hewan.index', compact('data'));
-    }
+  public function index()
+  {
+    $data = DB::table('jenis_hewan')->get();
+    return view('admin.jenis-hewan.index', compact('data'));
+  }
 
-    public function create()
-    {
-        return view('admin.jenis-hewan.create');
-    }
+  public function store(Request $r)
+  {
+    $r->validate(['nama_jenis_hewan' => 'required|string|max:100']);
 
-    public function store(Request $r)
-    {
-        $this->validateJenisHewan($r);
-        $this->createJenisHewan($this->formatNamaJenisHewan($r->nama_jenis_hewan));
-        return back();
-    }
+    DB::table('jenis_hewan')->insert([
+      'nama_jenis_hewan' => ucwords(strtolower($r->nama_jenis_hewan)),
+    ]);
 
-    private function validateJenisHewan(Request $r)
-    {
-        $r->validate(['nama_jenis_hewan' => 'required|string|max:100']);
-    }
+    return back();
+  }
 
-    protected function createJenisHewan($nama)
-    {
-        JenisHewan::create(['nama_jenis_hewan' => $nama]);
-    }
+  public function edit($id, Request $r)
+  {
+    $r->validate(['nama_jenis_hewan' => 'required|string|max:100']);
 
-    protected function formatNamaJenisHewan($nama)
-    {
-        return ucwords(strtolower($nama));
-    }
+    DB::table('jenis_hewan')->where('idjenis_hewan', $id)->update([
+      'nama_jenis_hewan' => ucwords(strtolower($r->nama_jenis_hewan)),
+    ]);
 
-    public function edit(JenisHewan $jenis, Request $r)
-    {
-        $this->validateJenisHewan($r);
-        $jenis->update(['nama_jenis_hewan' => $this->formatNamaJenisHewan($r->nama_jenis_hewan)]);
-        return back();
-    }
+    return back();
+  }
 
-    public function delete(JenisHewan $jenis)
-    {
-        $jenis->delete();
-        return back();
-    }
+  public function delete($id)
+  {
+    DB::table('jenis_hewan')->where('idjenis_hewan', $id)->delete();
+    return back();
+  }
 }

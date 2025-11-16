@@ -1,126 +1,190 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>User - Admin Dashboard</title>
-</head>
-
-<body>
-    <main class="container">
-        <section class="hero">
-        <div class="center-row">
-            <h1>Data User</h1>
-            <p class="short"><a data-target="tambahUser" onclick="tambahUser.showModal()">Tambah User</a></p>
-            <dialog id="tambahUser">
-                <form method="post" action="{{ route('admin.user.store') }}">
-                    @csrf
-                    <h2>Tambah User</h2>
-                    <label>Nama <input name="nama"></label>
-                    <label>Email <input type="email" name="email"></label>
-                    <label>Password <input type="password" name="password"></label>
-                    <label>Role
-                        <select name="idrole">
-                            @foreach($roles as $r)
-                                <option value="{{ $r->idrole }}">{{ $r->nama_role }}</option>
-                            @endforeach
-                        </select>
-                    </label>
-                    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                        <button type="button" onclick="tambahUser.close()">Cancel</button>
-                        <button type="submit">Simpan</button>
-                    </div>
-                </form>
-            </dialog>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">User</h3>
         </div>
-        </section>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Data Master</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <table role="grid">
-            <thead>
+  <div class="app-content">
+    <div class="container-fluid">
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Daftar User</h3>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahUser">
+              <i class="bi bi-plus-lg"></i> Tambah User
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Aksi</th>
+                  <th style="width: 60px">#</th>
+                  <th>Nama</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th style="width: 160px">Aksi</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 @foreach($data as $user)
-                    <tr>
-                        <td>{{ $user->iduser }}</td>
-                        <td>{{ $user->nama }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            @foreach($user->roles as $r)
-                                <a href="{{ route('admin.user.role.toggle', [$user->iduser, $r->idrole]) }}"
-                                onclick="event.preventDefault(); document.getElementById('toggleRole{{ $user->iduser }}_{{ $r->idrole }}').submit();"
-                                style="color:black; text-decoration:none;">
-                                    {{ $r->nama_role }} <i>({{ $r->pivot->status ? 'aktif' : 'nonaktif' }})</i>
-                                </a>
-                                <form id="toggleRole{{ $user->iduser }}_{{ $r->idrole }}" method="post" 
-                                    action="{{ route('admin.user.role.toggle', [$user->iduser, $r->idrole]) }}" style="display:none;">
-                                    @csrf
-                                </form>
-                                @if(!$loop->last), @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            <a onclick="editUser{{ $user->iduser }}.showModal()">Edit</a>
-                            <a onclick="hapusUser{{ $user->iduser }}.showModal()">Hapus</a>
+                  <tr class="align-middle">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $user->nama }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>
+                      @foreach($user->roles as $r)
+                        <span class="badge bg-{{ $r->pivot->status ? 'success' : 'secondary' }}">
+                          {{ $r->nama_role }}
+                        </span>
+                      @endforeach
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalEditUser{{ $user->iduser }}">
+                        Edit
+                      </button>
 
-                            <dialog id="editUser{{ $user->iduser }}">
-                                <form method="post" action="{{ route('admin.user.edit',$user->iduser) }}">
-                                    @csrf
-                                    <h2>Edit User</h2>
-                                    <label>Nama <input name="nama" value="{{ $user->nama }}"></label>
-                                    <label>Email <input name="email" value="{{ $user->email }}"></label>
-                                    <label>Role
-                                        <select name="idrole[]" multiple size="4">
-                                            @foreach($roles as $r)
-                                                <option value="{{ $r->idrole }}" 
-                                                    {{ in_array($r->idrole, $user->roles->pluck('idrole')->toArray()) ? 'selected' : '' }}>
-                                                    {{ $r->nama_role }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <p class="muted">Gunakan Ctrl/Command untuk memilih lebih dari satu role.</p>
-                                    </label>
-                                    <label>Status
-                                        <select name="aktif">
-                                            <option value="1" {{ $user->aktif ? 'selected' : '' }}>Aktif</option>
-                                            <option value="0" {{ !$user->aktif ? 'selected' : '' }}>Nonaktif</option>
-                                        </select>
-                                    </label>
-                                    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                                        <button type="button" onclick="editUser{{ $user->iduser }}.close()">Cancel</button>
-                                        <button type="submit">Update</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                            
-                            <dialog id="hapusUser{{ $user->iduser }}">
-                                <form method="post" action="{{ route('admin.user.delete',$user->iduser) }}">
-                                    @csrf
-                                    <h2>Hapus User</h2>
-                                    <p>Yakin ingin menghapus user <strong>{{ $user->nama }}</strong>?</p>
-                                    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                                        <button type="button" onclick="hapusUser{{ $user->iduser }}.close()">Cancel</button>
-                                        <button type="submit">Hapus</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                        </td>
-                    </tr>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalHapusUser{{ $user->iduser }}">
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="modalEditUser{{ $user->iduser }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.user.edit', $user->iduser) }}">
+                          @csrf
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <label class="form-label">Nama</label>
+                            <input name="nama" class="form-control mb-2" value="{{ $user->nama }}">
+
+                            <label class="form-label">Email</label>
+                            <input name="email" class="form-control mb-2" value="{{ $user->email }}">
+
+                            <label class="form-label">Role</label>
+                            <select name="idrole[]" class="form-select mb-3" multiple size="4">
+                              @foreach($roles as $r)
+                                <option value="{{ $r->idrole }}" {{ in_array($r->idrole, $user->roles->pluck('idrole')->toArray()) ? 'selected' : '' }}>
+                                  {{ $r->nama_role }}
+                                </option>
+                              @endforeach
+                            </select>
+                            <p class="muted">Gunakan Ctrl/Command untuk memilih lebih dari satu role.</p>
+
+                            <label class="form-label">Status</label>
+                            <select name="aktif" class="form-select">
+                              <option value="1" {{ $user->aktif ? 'selected' : '' }}>Aktif</option>
+                              <option value="0" {{ !$user->aktif ? 'selected' : '' }}>Nonaktif</option>
+                            </select>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="modalHapusUser{{ $user->iduser }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.user.delete', $user->iduser) }}">
+                          @csrf
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <p>Yakin ingin menghapus user <strong>{{ $user->nama }}</strong>?</p>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 @endforeach
-            </tbody>
-        </table>
-    </main>
-</body>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-</html>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTambahUser" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="{{ route('admin.user.store') }}">
+          @csrf
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label">Nama</label>
+            <input name="nama" class="form-control mb-2">
+
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control mb-2">
+
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control mb-2">
+
+            <label class="form-label">Role</label>
+            <select name="idrole" class="form-select">
+              @foreach($roles as $r)
+                <option value="{{ $r->idrole }}">{{ $r->nama_role }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+@endsection

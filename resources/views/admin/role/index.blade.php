@@ -1,85 +1,153 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>Role - Admin Dashboard</title>
-</head>
-</head>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Role</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Data Master</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Role</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<body>
-    <main class="container">
-        <section class="hero">
-            <div class="center-row">
-                <h1>Data Role</h1>
-                <p class="short">
-                    <a data-target="tambahRole" onclick="tambahRole.showModal()">Tambah Role</a>
-                </p>
-                <dialog id="tambahRole">
-                    <form method="post" action="{{ route('admin.role.store') }}">
-                        @csrf
-                        <h1>Tambah Role</h1>
-                        <input name="nama_role">
-                        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                            <button type="button" onclick="tambahRole.close()">Cancel</button>
-                            <button type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </dialog>
-            </div>
-        </section>
+  <div class="app-content">
+    <div class="container-fluid">
 
-        <table role="grid">
-            <thead>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Daftar Role</h3>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahRole">
+              <i class="bi bi-plus-lg"></i> Tambah Role
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>Nama Role</th>
-                    <th>Aksi</th>
+                  <th style="width: 60px">#</th>
+                  <th>Nama Role</th>
+                  <th style="width: 140px">Aksi</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+
+              <tbody>
                 @foreach($data as $role)
-                    <tr>
-                        <td>{{ $role->idrole }}</td>
-                        <td>{{ $role->nama_role }}</td>
-                        <td>
-                            <a onclick="editRole{{ $role->idrole }}.showModal()">Edit</a>
-                            <a onclick="hapusRole{{ $role->idrole }}.showModal()">Hapus</a>
-                            
-                            <dialog id="editRole{{ $role->idrole }}">
-                                <form method="post" action="{{ route('admin.role.edit', $role->idrole) }}">
-                                    @csrf
-                                    <h1 style="text-align: center">Edit Role</h1>
-                                    <input name="nama_role" value="{{ $role->nama_role }}">
-                                    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                                        <button type="button" onclick="editRole{{ $role->idrole }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
+                  <tr class="align-middle">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $role->nama_role }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalEditRole{{ $role->idrole }}">
+                        Edit
+                      </button>
 
-                            <dialog id="hapusRole{{ $role->idrole }}">
-                                <form method="post" action="{{ route('admin.role.delete', $role->idrole) }}">
-                                    @csrf
-                                    <h1 style="text-align: center">Hapus Role</h1>
-                                    <p>Yakin ingin menghapus role <strong>{{ $role->nama_role }}</strong>?</p>
-                                    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
-                                        <button type="button" onclick="hapusRole{{ $role->idrole }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                        </td>
-                    </tr>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalHapusRole{{ $role->idrole }}">
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="modalEditRole{{ $role->idrole }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.role.edit', $role->idrole) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Role</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <label class="form-label">Nama Role</label>
+                            <input name="nama_role" class="form-control" value="{{ $role->nama_role }}">
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="modalHapusRole{{ $role->idrole }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.role.delete', $role->idrole) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus Role</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <p>Yakin ingin menghapus role <strong>{{ $role->nama_role }}</strong>?</p>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 @endforeach
-            </tbody>
-        </table>
-    </main>
-</body>
+              </tbody>
 
-</html>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTambahRole" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="{{ route('admin.role.store') }}">
+          @csrf
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Role</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label">Nama Role</label>
+            <input name="nama_role" class="form-control">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+@endsection

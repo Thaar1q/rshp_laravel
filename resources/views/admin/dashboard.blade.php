@@ -1,73 +1,142 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>Dashboard Admin - RSHP UNAIR</title>
-</head>
-<body>
-    <main class="container">
-        <section class="hero">
-            <div class="center-row">
-                <h1>Welcome</h1>
-                <p class="lead">Anda sekarang berada di dashboard Admin.</p>
+@section('content')
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Dashboard</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <h5 class="mb-2">Data Master</h5>
+      <div class="row">
+
+        <!-- User -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner text-white">
+              <h4><strong>User</strong></h4>
+              <p>Manajemen user & akses</p>
             </div>
-        </section>
+            <a href="{{ route('admin.user.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-        <!-- Grid Menu -->
-        <section class="services-grid" aria-label="Menu Admin - Grid">
-            <article class="service-card" aria-labelledby="m-user">
-                <h4 id="m-user">User</h4>
-                <p class="short">User & role terkait.</p>
-                <small class="muted"><a href="{{ route('admin.user.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Role -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-success">
+            <div class="inner text-white">
+              <h4><strong>Role</strong></h4>
+              <p>Peran pengguna RSHP</p>
+            </div>
+            <a href="{{ route('admin.role.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-role">
-                <h4 id="m-role">Role</h4>
-                <p class="short">Peran pengguna RSHP.</p>
-                <small class="muted"><a href="{{ route('admin.role.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Pet -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h4><strong>Pet</strong></h4>
+              <p>Data hewan peliharaan</p>
+            </div>
+            <a href="{{ route('admin.pet.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-pet">
-                <h4 id="m-pet">Pet</h4>
-                <p class="short">Data hewan peliharaan.</p>
-                <small class="muted"><a href="{{ route('admin.pet.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Jenis Hewan -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h4><strong>Jenis Hewan</strong></h4>
+              <p>List jenis hewan</p>
+            </div>
+            <a href="{{ route('admin.jenis-hewan.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-jenis-hewan">
-                <h4 id="m-jenis-hewan">Jenis Hewan</h4>
-                <p class="short">List jenis hewan terdaftar.</p>
-                <small class="muted"><a href="{{ route('admin.jenis-hewan.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Ras Hewan -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-danger">
+            <div class="inner text-white">
+              <h4><strong>Ras Hewan</strong></h4>
+              <p>Kategori ras berdasarkan jenis</p>
+            </div>
+            <a href="{{ route('admin.ras-hewan.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-ras-hewan">
-                <h4 id="m-ras-hewan">Ras Hewan</h4>
-                <p class="short">Ras berdasarkan jenis.</p>
-                <small class="muted"><a href="{{ route('admin.ras-hewan.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Kategori -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-secondary">
+            <div class="inner text-white">
+              <h4><strong>Kategori</strong></h4>
+              <p>Kategori tindakan klinis</p>
+            </div>
+            <a href="{{ route('admin.kategori.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-kategori">
-                <h4 id="m-kategori">Kategori</h4>
-                <p class="short">Kategori tindakan klinis.</p>
-                <small class="muted"><a href="{{ route('admin.kategori.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Kategori Klinis -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-dark">
+            <div class="inner text-white">
+              <h4><strong>Kategori Klinis</strong></h4>
+              <p>Klasifikasi terapi / tindakan</p>
+            </div>
+            <a href="{{ route('admin.kategori-klinis.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-kategori-klinis">
-                <h4 id="m-kategori-klinis">Kategori Klinis</h4>
-                <p class="short">Klasifikasi terapi / tindakan.</p>
-                <small class="muted"><a href="{{ route('admin.kategori-klinis.index') }}">Lihat Data</a></small>
-            </article>
+        <!-- Kode Tindakan -->
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner text-white">
+              <h4><strong>Kode Tindakan</strong></h4>
+              <p>Kode & deskripsi tindakan</p>
+            </div>
+            <a href="{{ route('admin.kode-tindakan.index') }}"
+              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+              Lihat Data <i class="bi bi-link-45deg"></i>
+            </a>
+          </div>
+        </div>
 
-            <article class="service-card" aria-labelledby="m-kode-tindakan">
-                <h4 id="m-kode-tindakan">Kode Tindakan Terapi</h4>
-                <p class="short">Kode & deskripsi tindakan.</p>
-                <small class="muted"><a href="{{ route('admin.kode-tindakan.index') }}">Lihat Data</a></small>
-            </article>
-        </section>
-    </main>
-</body>
-</html>
+      </div>
+    </div>
+  </div>
+
+  </main>
+@endsection

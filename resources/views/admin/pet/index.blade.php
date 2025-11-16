@@ -1,155 +1,225 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>Pet - Admin Dashboard</title>
-</head>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Pet</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Data Master</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Pet</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<body>
-    <main class="container">
-        <section class="hero">
-            <div class="center-row">
-                <h1>Data Pet</h1>
-                <p class="short"><a data-target="tambahPet" onclick="tambahPet.showModal()">Tambah Pet</a></p>
-                <dialog id="tambahPet">
-                    <form method="post" action="{{ route('admin.pet.store') }}">
-                        @csrf
-                        <h2>Tambah Pet</h2>
-                        <label>Nama Pet</label>
-                        <input name="nama">
+  <div class="app-content">
+    <div class="container-fluid">
 
-                        <label>Jenis Kelamin</label>
-                        <select name="jenis_kelamin">
-                            <option value="J">Jantan</option>
-                            <option value="B">Betina</option>
-                        </select>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Daftar Pet</h3>
 
-                        <label>Ras</label>
-                        <select name="idras_hewan">
-                            @foreach($ras as $r)
-                                <option value="{{ $r->idras_hewan }}"
-                                    data-jenis="{{ $r->jenisHewan->nama_jenis_hewan ?? '' }}">
-                                    {{ $r->nama_ras }}
-                                </option>
-                            @endforeach
-                        </select>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahPet">
+              <i class="bi bi-plus-lg"></i> Tambah Pet
+            </button>
+          </div>
+        </div>
 
-                        <label>Jenis Hewan</label>
-                        <input id="inputJenisHewan" disabled value="{{ $selectedJenis ?? '' }}">
-
-                        <label>Pemilik</label>
-                        <select name="idpemilik">
-                            @foreach($pemilik as $p)
-                                <option value="{{ $p->idpemilik }}">{{ $p->user->nama }}</option>
-                            @endforeach
-                        </select>
-
-                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                            <button type="button" onclick="tambahPet.close()">Cancel</button>
-                            <button type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </dialog>
-            </div>
-        </section>
-
-        <table>
-            <thead>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
                 <tr>
-                    <th>Nama Pet</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Ras</th>
-                    <th>Jenis Hewan</th>
-                    <th>Pemilik</th>
-                    <th>Aksi</th>
+                  <th style="width: 60px">#</th>
+                  <th>Nama Pet</th>
+                  <th>Jenis Kelamin</th>
+                  <th>Ras</th>
+                  <th>Jenis Hewan</th>
+                  <th>Pemilik</th>
+                  <th style="width: 160px">Aksi</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+
+              <tbody>
                 @foreach($data as $pet)
-                    <tr>
-                        <td>{{ $pet->nama }}</td>
-                        <td>{{ $pet->jenis_kelamin == 'J' ? 'Jantan' : 'Betina' }}</td>
-                        <td>{{ $pet->rasHewan->nama_ras ?? '-' }}</td>
-                        <td>{{ $pet->rasHewan->jenisHewan->nama_jenis_hewan ?? '-' }}</td>
-                        <td>{{ $pet->pemilik->user->nama ?? '-' }}</td>
-                        <td>
-                            <a onclick="editPet{{ $pet->idpet }}.showModal()">Edit</a>
-                            <a onclick="hapusPet{{ $pet->idpet }}.showModal()">Hapus</a>
+                  <tr class="align-middle">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $pet->nama }}</td>
+                    <td>{{ $pet->jenis_kelamin == 'J' ? 'Jantan' : 'Betina' }}</td>
+                    <td>{{ $pet->rasHewan->nama_ras ?? '-' }}</td>
+                    <td>{{ $pet->rasHewan->jenisHewan->nama_jenis_hewan ?? '-' }}</td>
+                    <td>{{ $pet->pemilik->user->nama ?? '-' }}</td>
 
-                            <dialog id="editPet{{ $pet->idpet }}">
-                                <form method="post" action="{{ route('admin.pet.edit', $pet->idpet) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Edit Pet</h1>
-                                    <label>Nama Pet</label>
-                                    <input name="nama" value="{{ $pet->nama }}">
-                                    <label>Jenis Kelamin</label>
-                                    <select name="jenis_kelamin">
-                                        <option value="J" {{ $pet->jenis_kelamin == 'J' ? 'selected' : '' }}>Jantan</option>
-                                        <option value="B" {{ $pet->jenis_kelamin == 'B' ? 'selected' : '' }}>Betina</option>
-                                    </select>
-                                    <label>Ras</label>
-                                    <select name="idras_hewan">
-                                        @foreach($ras as $r)
-                                            <option value="{{ $r->idras_hewan }}" {{ $r->idras_hewan == $pet->idras_hewan ? 'selected' : '' }}>
-                                                {{ $r->nama_ras }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <label>Pemilik</label>
-                                    <select name="idpemilik">
-                                        @foreach($pemilik as $p)
-                                            <option value="{{ $p->idpemilik }}" {{ $p->idpemilik == $pet->idpemilik ? 'selected' : '' }}>
-                                                {{ $p->user->nama }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button" onclick="editPet{{ $pet->idpet }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
+                    <td>
+                      <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalEditPet{{ $pet->idpet }}">
+                        Edit
+                      </button>
 
-                            <dialog id="hapusPet{{ $pet->idpet }}">
-                                <form method="post" action="{{ route('admin.pet.delete', $pet->idpet) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Hapus Pet</h1>
-                                    <p>Yakin ingin menghapus pet <strong>{{ $pet->nama }}</strong>?</p>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button" onclick="hapusPet{{ $pet->idpet }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                        </td>
-                    </tr>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalHapusPet{{ $pet->idpet }}">
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="modalEditPet{{ $pet->idpet }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.pet.edit', $pet->idpet) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Pet</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <label class="form-label">Nama Pet</label>
+                            <input name="nama" class="form-control mb-2" value="{{ $pet->nama }}">
+
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select name="jenis_kelamin" class="form-select mb-2">
+                              <option value="J" {{ $pet->jenis_kelamin == 'J' ? 'selected' : '' }}>Jantan</option>
+                              <option value="B" {{ $pet->jenis_kelamin == 'B' ? 'selected' : '' }}>Betina</option>
+                            </select>
+
+                            <label class="form-label">Ras</label>
+                            <select name="idras_hewan" class="form-select mb-2">
+                              @foreach($ras as $r)
+                                <option value="{{ $r->idras_hewan }}" {{ $r->idras_hewan == $pet->idras_hewan ? 'selected' : '' }}>
+                                  {{ $r->nama_ras }}
+                                </option>
+                              @endforeach
+                            </select>
+
+                            <label class="form-label">Pemilik</label>
+                            <select name="idpemilik" class="form-select mb-2">
+                              @foreach($pemilik as $p)
+                                <option value="{{ $p->idpemilik }}" {{ $p->idpemilik == $pet->idpemilik ? 'selected' : '' }}>
+                                  {{ $p->user->nama }}
+                                </option>
+                              @endforeach
+                            </select>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="modalHapusPet{{ $pet->idpet }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.pet.delete', $pet->idpet) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus Pet</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            Yakin ingin menghapus pet <strong>{{ $pet->nama }}</strong>?
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 @endforeach
-            </tbody>
-        </table>
+              </tbody>
 
-    </main>
-</body>
+            </table>
+          </div>
+        </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const rasSelect = document.querySelector('select[name="idras_hewan"]');
-        const inputJenis = document.getElementById('inputJenisHewan');
-        function updateJenis() {
-            const opt = rasSelect.options[rasSelect.selectedIndex];
-            const jenis = opt.dataset.jenis ?? '';
-            inputJenis.value = jenis || '-';
-        }
-        if (rasSelect) {
-            rasSelect.addEventListener('change', updateJenis);
-            updateJenis();
-        }
-    });
-</script>
+      </div>
 
-</html>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTambahPet" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="{{ route('admin.pet.store') }}">
+          @csrf
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Pet</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label">Nama Pet</label>
+            <input name="nama" class="form-control mb-2">
+
+            <label class="form-label">Jenis Kelamin</label>
+            <select name="jenis_kelamin" class="form-select mb-2">
+              <option value="J">Jantan</option>
+              <option value="B">Betina</option>
+            </select>
+
+            <label class="form-label">Ras</label>
+            <select name="idras_hewan" class="form-select mb-2" id="selectRas">
+              @foreach($ras as $r)
+                <option value="{{ $r->idras_hewan }}" data-jenis="{{ $r->jenisHewan->nama_jenis_hewan ?? '' }}">
+                  {{ $r->nama_ras }}
+                </option>
+              @endforeach
+            </select>
+
+            <label class="form-label">Jenis Hewan</label>
+            <input id="inputJenisHewan" class="form-control mb-2" disabled>
+
+            <label class="form-label">Pemilik</label>
+            <select name="idpemilik" class="form-select mb-2">
+              @foreach($pemilik as $p)
+                <option value="{{ $p->idpemilik }}">{{ $p->user->nama }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const rasSelect = document.getElementById('selectRas')
+      const jenisInput = document.getElementById('inputJenisHewan')
+      function updateJenis() {
+        const opt = rasSelect.options[rasSelect.selectedIndex]
+        jenisInput.value = opt.dataset.jenis || '-'
+      }
+      rasSelect.addEventListener('change', updateJenis)
+      updateJenis()
+    })
+  </script>
+
+@endsection

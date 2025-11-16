@@ -83,8 +83,6 @@ class UserController extends Controller
     return back();
   }
 
-
-
   public function delete(User $user)
   {
     $user->delete();

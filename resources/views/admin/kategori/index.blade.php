@@ -1,86 +1,155 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>Kategori - Admin Dashboard</title>
-</head>
-</head>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Kategori</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Data Master</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Kategori</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<body>
-    <main class="container">
-        <section class="hero">
-            <div class="center-row">
-                <h1>Data Kategori</h1>
-                <p class="short"><a data-target="tambahKategori" onclick="tambahKategori.showModal()">Tambah
-                        Kategori</a></p>
-                <dialog id="tambahKategori">
-                    <form method="post" action="{{ route('admin.kategori.store') }}">
-                        @csrf
-                        <h1 style="text-align:center">Tambah Kategori</h1>
-                        <input name="nama_kategori">
-                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                            <button type="button" onclick="tambahKategori.close()">Cancel</button>
-                            <button type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </dialog>
-            </div>
-        </section>
+  <div class="app-content">
+    <div class="container-fluid">
 
-        <table>
-            <thead>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Daftar Kategori</h3>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahKategori">
+              <i class="bi bi-plus-lg"></i> Tambah Kategori
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>Nama Kategori</th>
-                    <th>Aksi</th>
+                  <th style="width: 60px">#</th>
+                  <th>Nama Kategori</th>
+                  <th style="width: 160px">Aksi</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+
+              <tbody>
                 @foreach($data as $kategori)
-                    <tr>
-                        <td>{{ $kategori->idkategori }}</td>
-                        <td>{{ $kategori->nama_kategori }}</td>
-                        <td>
-                            <a onclick="editKategori{{ $kategori->idkategori }}.showModal()">Edit</a>
-                            <a onclick="hapusKategori{{ $kategori->idkategori }}.showModal()">Hapus</a>
+                  <tr class="align-middle">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $kategori->nama_kategori }}</td>
 
-                            <dialog id="editKategori{{ $kategori->idkategori }}">
-                                <form method="post" action="{{ route('admin.kategori.edit', $kategori->idkategori) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Edit Kategori</h1>
-                                    <input name="nama_kategori" value="{{ $kategori->nama_kategori }}">
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button"
-                                            onclick="editKategori{{ $kategori->idkategori }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
+                    <td>
+                      <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalEditKategori{{ $kategori->idkategori }}">
+                        Edit
+                      </button>
 
-                            <dialog id="hapusKategori{{ $kategori->idkategori }}">
-                                <form method="post" action="{{ route('admin.kategori.delete', $kategori->idkategori) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Hapus Kategori</h1>
-                                    <p>Yakin ingin menghapus kategori <strong>{{ $kategori->nama_kategori }}</strong>?</p>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button"
-                                            onclick="hapusKategori{{ $kategori->idkategori }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                        </td>
-                    </tr>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalHapusKategori{{ $kategori->idkategori }}">
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="modalEditKategori{{ $kategori->idkategori }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.kategori.edit', $kategori->idkategori) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Kategori</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <label class="form-label">Nama Kategori</label>
+                            <input name="nama_kategori" class="form-control mb-2" value="{{ $kategori->nama_kategori }}">
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="modalHapusKategori{{ $kategori->idkategori }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.kategori.delete', $kategori->idkategori) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus Kategori</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            Yakin ingin menghapus kategori
+                            <strong>{{ $kategori->nama_kategori }}</strong>?
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 @endforeach
-            </tbody>
-        </table>
-    </main>
-</body>
+              </tbody>
 
-</html>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTambahKategori" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="{{ route('admin.kategori.store') }}">
+          @csrf
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Kategori</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label">Nama Kategori</label>
+            <input name="nama_kategori" class="form-control mb-2">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+@endsection

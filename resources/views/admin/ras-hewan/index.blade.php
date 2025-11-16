@@ -1,101 +1,173 @@
-@include('navbar.role')
+@extends('layouts.lte.main')
 
-<!doctype html>
-<html lang="id" data-theme="light">
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/pico.yellow.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-    <title>Ras Hewan - Admin Dashboard</title>
-</head>
-</head>
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">Ras Hewan</h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="#">Data Master</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ras Hewan</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<body>
-    <main class="container">
-        <section class="hero">
-            <div class="center-row">
-                <h1>Data Ras Hewan</h1>
-                <p class="short"><a data-target="tambahRas" onclick="tambahRas.showModal()">Tambah Ras Hewan</a></p>
-                <dialog id="tambahRas">
-                    <form method="post" action="{{ route('admin.ras-hewan.store') }}">
-                        @csrf
-                        <h1 style="text-align:center">Tambah Ras Hewan</h1>
-                        <label>Nama Ras</label>
-                        <input name="nama_ras">
-                        <label>Jenis Hewan</label>
-                        <select name="idjenis_hewan">
-                            @foreach($jenis as $j)
-                                <option value="{{ $j->idjenis_hewan }}">{{ $j->nama_jenis_hewan }}</option>
-                            @endforeach
-                        </select>
-                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                            <button type="button" onclick="tambahRas.close()">Cancel</button>
-                            <button type="submit">Simpan</button>
-                        </div>
-                    </form>
-                </dialog>
-            </div>
-        </section>
+  <div class="app-content">
+    <div class="container-fluid">
 
-        <table>
-            <thead>
+      <div class="card mb-4">
+        <div class="card-header">
+          <div class="d-flex w-100 justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Daftar Ras Hewan</h3>
+
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambahRas">
+              <i class="bi bi-plus-lg"></i> Tambah Ras
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>Nama Ras</th>
-                    <th>Jenis Hewan</th>
-                    <th>Aksi</th>
+                  <th style="width: 60px">#</th>
+                  <th>Nama Ras</th>
+                  <th>Jenis Hewan</th>
+                  <th style="width: 160px">Aksi</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+
+              <tbody>
                 @foreach($data as $ras)
-                    <tr>
-                        <td>{{ $ras->idras_hewan }}</td>
-                        <td>{{ $ras->nama_ras }}</td>
-                        <td>{{ $ras->jenisHewan->nama_jenis_hewan ?? '-' }}</td>
-                        <td>
-                            <a onclick="editRas{{ $ras->idras_hewan }}.showModal()">Edit</a>
-                            <a onclick="hapusRas{{ $ras->idras_hewan }}.showModal()">Hapus</a>
+                  <tr class="align-middle">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $ras->nama_ras }}</td>
+                    <td>{{ $ras->jenisHewan->nama_jenis_hewan ?? '-' }}</td>
 
-                            <dialog id="editRas{{ $ras->idras_hewan }}">
-                                <form method="post" action="{{ route('admin.ras-hewan.edit', $ras->idras_hewan) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Edit Ras Hewan</h1>
-                                    <input name="nama_ras" value="{{ $ras->nama_ras }}">
-                                    <select name="idjenis_hewan">
-                                        @foreach($jenis as $j)
-                                            <option value="{{ $j->idjenis_hewan }}" {{ $j->idjenis_hewan == $ras->idjenis_hewan ? 'selected' : '' }}>
-                                                {{ $j->nama_jenis_hewan }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button"
-                                            onclick="editRas{{ $ras->idras_hewan }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
+                    <td>
+                      <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalEditRas{{ $ras->idras_hewan }}">
+                        Edit
+                      </button>
 
-                            <dialog id="hapusRas{{ $ras->idras_hewan }}">
-                                <form method="post" action="{{ route('admin.ras-hewan.delete', $ras->idras_hewan) }}">
-                                    @csrf
-                                    <h1 style="text-align:center">Hapus Ras Hewan</h1>
-                                    <p>Yakin ingin menghapus ras <strong>{{ $ras->nama_ras }}</strong>?</p>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
-                                        <button type="button"
-                                            onclick="hapusRas{{ $ras->idras_hewan }}.close()">Cancel</button>
-                                        <button type="submit">Simpan</button>
-                                    </div>
-                                </form>
-                            </dialog>
-                        </td>
-                    </tr>
+                      <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#modalHapusRas{{ $ras->idras_hewan }}">
+                        Hapus
+                      </button>
+                    </td>
+                  </tr>
+
+                  <div class="modal fade" id="modalEditRas{{ $ras->idras_hewan }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.ras-hewan.edit', $ras->idras_hewan) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Ras Hewan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            <label class="form-label">Nama Ras</label>
+                            <input name="nama_ras" class="form-control mb-2" value="{{ $ras->nama_ras }}">
+
+                            <label class="form-label">Jenis Hewan</label>
+                            <select name="idjenis_hewan" class="form-select">
+                              @foreach($jenis as $j)
+                                <option value="{{ $j->idjenis_hewan }}" {{ $j->idjenis_hewan == $ras->idjenis_hewan ? 'selected' : '' }}>
+                                  {{ $j->nama_jenis_hewan }}
+                                </option>
+                              @endforeach
+                            </select>
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="modalHapusRas{{ $ras->idras_hewan }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <form method="post" action="{{ route('admin.ras-hewan.delete', $ras->idras_hewan) }}">
+                          @csrf
+
+                          <div class="modal-header">
+                            <h5 class="modal-title">Hapus Ras Hewan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+
+                          <div class="modal-body">
+                            Yakin ingin menghapus ras
+                            <strong>{{ $ras->nama_ras }}</strong>?
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
                 @endforeach
-            </tbody>
-        </table>
-    </main>
-</body>
+              </tbody>
 
-</html>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTambahRas" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="post" action="{{ route('admin.ras-hewan.store') }}">
+          @csrf
+
+          <div class="modal-header">
+            <h5 class="modal-title">Tambah Ras Hewan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <label class="form-label">Nama Ras</label>
+            <input name="nama_ras" class="form-control mb-2">
+
+            <label class="form-label">Jenis Hewan</label>
+            <select name="idjenis_hewan" class="form-select">
+              @foreach($jenis as $j)
+                <option value="{{ $j->idjenis_hewan }}">{{ $j->nama_jenis_hewan }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+@endsection

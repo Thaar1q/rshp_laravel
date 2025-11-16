@@ -4,53 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\KategoriKlinis;
+use Illuminate\Support\Facades\DB;
 
 class KategoriKlinisController extends Controller
 {
-    public function index()
-    {
-        $data = KategoriKlinis::all();
-        return view('admin.kategori-klinis.index', compact('data'));
-    }
+  public function index()
+  {
+    $data = DB::table('kategori_klinis')->get();
+    return view('admin.kategori-klinis.index', compact('data'));
+  }
 
-    public function create()
-    {
-        return view('admin.kategori-klinis.create');
-    }
+  public function store(Request $r)
+  {
+    $r->validate([
+      'nama_kategori_klinis' => 'required|string|max:100'
+    ]);
 
-    public function store(Request $r)
-    {
-        $this->validateKategoriKlinis($r);
-        $this->createKategoriKlinis($r->nama_kategori_klinis);
-        return back();
-    }
+    DB::table('kategori_klinis')->insert([
+      'nama_kategori_klinis' => ucwords(strtolower($r->nama_kategori_klinis)),
+    ]);
 
-    private function validateKategoriKlinis(Request $r)
-    {
-        $r->validate(['nama_kategori_klinis' => 'required|string|max:100']);
-    }
+    return back();
+  }
 
-    protected function createKategoriKlinis($nama)
-    {
-        KategoriKlinis::create(['nama_kategori_klinis' => $this->formatNamaKategoriKlinis($nama)]);
-    }
+  public function edit($id, Request $r)
+  {
+    $r->validate([
+      'nama_kategori_klinis' => 'required|string|max:100'
+    ]);
 
-    protected function formatNamaKategoriKlinis($nama)
-    {
-        return ucwords(strtolower($nama));
-    }
+    DB::table('kategori_klinis')
+      ->where('idkategori_klinis', $id)
+      ->update([
+        'nama_kategori_klinis' => ucwords(strtolower($r->nama_kategori_klinis)),
+      ]);
 
-    public function edit(KategoriKlinis $kategori, Request $r)
-    {
-        $this->validateKategoriKlinis($r);
-        $kategori->update(['nama_kategori_klinis' => $this->formatNamaKategoriKlinis($r->nama_kategori_klinis)]);
-        return back();
-    }
+    return back();
+  }
 
-    public function delete(KategoriKlinis $kategori)
-    {
-        $kategori->delete();
-        return back();
-    }
+  public function delete($id)
+  {
+    DB::table('kategori_klinis')->where('idkategori_klinis', $id)->delete();
+    return back();
+  }
 }
