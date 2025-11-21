@@ -1,29 +1,34 @@
 <?php
+
 namespace App\Models;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class TemuDokter extends Model
 {
-    use HasFactory;
-    protected $table = 'temu_dokter';
-    protected $primaryKey = 'idtemu_dokter';
-    public $timestamps = false;
+	use HasFactory;
 
-    protected $fillable = ['no_urut','waktu_daftar','status','idpet','idrole_user','idrekam_medis'];
+	protected $table = 'temu_dokter';
 
-    public function pet()
-    {
-        return $this->belongsTo(Pet::class, 'idpet');
-    }
+	protected $primaryKey = 'idtemu_dokter';
 
-    public function roleUser()
-    {
-        return $this->belongsTo(RoleUser::class, 'idrole_user');
-    }
+	public $timestamps = false;
 
-    public function rekamMedis()
-    {
-        return $this->belongsTo(RekamMedis::class, 'idrekam_medis');
-    }
+	protected $fillable = ['no_urut', 'waktu_daftar', 'status', 'idpet', 'idrole_user', 'idrekam_medis'];
+
+	public function pet()
+	{
+		return $this->belongsTo(Pet::class, 'idpet');
+	}
+
+	public function roleUser()
+	{
+		return $this->belongsTo(RoleUser::class, 'idrole_user');
+	}
+
+	public function rekamMedis()
+	{
+		return $this->belongsTo(RekamMedis::class, 'idrekam_medis');
+	}
 }

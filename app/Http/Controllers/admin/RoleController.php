@@ -8,39 +8,41 @@ use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
-  public function index()
-  {
-    $data = DB::table('role')->get();
-    return view('admin.role.index', compact('data'));
-  }
+	public function index()
+	{
+		$data = DB::table('role')->get();
 
-  public function store(Request $r)
-  {
-    $r->validate(['nama_role' => 'required|string|max:50']);
+		return view('admin.role.index', compact('data'));
+	}
 
-    DB::table('role')->insert([
-      'nama_role' => ucwords(strtolower($r->nama_role)),
-    ]);
+	public function store(Request $r)
+	{
+		$r->validate(['nama_role' => 'required|string|max:50']);
 
-    return back();
-  }
+		DB::table('role')->insert([
+			'nama_role' => ucwords(strtolower($r->nama_role)),
+		]);
 
-  public function edit($id, Request $r)
-  {
-    $r->validate(['nama_role' => 'required|string|max:50']);
+		return back();
+	}
 
-    DB::table('role')
-      ->where('idrole', $id)
-      ->update([
-        'nama_role' => ucwords(strtolower($r->nama_role)),
-      ]);
+	public function edit($id, Request $r)
+	{
+		$r->validate(['nama_role' => 'required|string|max:50']);
 
-    return back();
-  }
+		DB::table('role')
+			->where('idrole', $id)
+			->update([
+				'nama_role' => ucwords(strtolower($r->nama_role)),
+			]);
 
-  public function delete($id)
-  {
-    DB::table('role')->where('idrole', $id)->delete();
-    return back();
-  }
+		return back();
+	}
+
+	public function delete($id)
+	{
+		DB::table('role')->where('idrole', $id)->delete();
+
+		return back();
+	}
 }
