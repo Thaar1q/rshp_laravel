@@ -1,4 +1,4 @@
-# RSHP Laravel — Admin Panel
+# RSHP Laravel
 
 Aplikasi manajemen data untuk Rumah Sakit Hewan Pendidikan berbasis Laravel dan AdminLTE.
 - Nama / NIM: Thaariq Wafa / 434241049
