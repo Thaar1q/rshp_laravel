@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\RecordsDeletion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-	use HasFactory, Notifiable;
+	use HasFactory, Notifiable, SoftDeletes, RecordsDeletion;
 
 	protected $table = 'user';
 
@@ -20,7 +22,10 @@ class User extends Authenticatable
 		'nama',
 		'email',
 		'password',
+		'deleted_by',
 	];
+
+	protected $dates = ['deleted_at'];
 
 	protected $hidden = [
 		'password',
@@ -68,5 +73,10 @@ class User extends Authenticatable
 			->pluck('nama_role')
 			->map(fn($role) => strtolower($role))
 			->toArray();
+	}
+
+	public function deletedBy()
+	{
+		return $this->belongsTo(User::class, 'deleted_by', 'iduser');
 	}
 }

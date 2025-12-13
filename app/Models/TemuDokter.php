@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\RecordsDeletion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TemuDokter extends Model
 {
-	use HasFactory;
+	use HasFactory, SoftDeletes, RecordsDeletion;
 
 	protected $table = 'temu_dokter';
 
@@ -15,7 +17,9 @@ class TemuDokter extends Model
 
 	public $timestamps = false;
 
-	protected $fillable = ['no_urut', 'waktu_daftar', 'status', 'idpet', 'idrole_user', 'idrekam_medis'];
+	protected $fillable = ['no_urut', 'waktu_daftar', 'status', 'idpet', 'idrole_user', 'idrekam_medis', 'deleted_by'];
+
+	protected $dates = ['deleted_at'];
 
 	public function pet()
 	{
@@ -30,5 +34,10 @@ class TemuDokter extends Model
 	public function rekamMedis()
 	{
 		return $this->belongsTo(RekamMedis::class, 'idrekam_medis');
+	}
+
+	public function deletedBy()
+	{
+		return $this->belongsTo(User::class, 'deleted_by', 'iduser');
 	}
 }

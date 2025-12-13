@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisHewan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -39,7 +40,7 @@ class JenisHewanController extends Controller
 
 	public function delete($id)
 	{
-		DB::table('jenis_hewan')->where('idjenis_hewan', $id)->delete();
+		JenisHewan::findOrFail($id)->delete();
 
 		return back();
 	}

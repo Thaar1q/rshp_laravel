@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\RecordsDeletion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RasHewan extends Model
 {
-	use HasFactory;
+	use HasFactory, SoftDeletes, RecordsDeletion;
 
 	protected $table = 'ras_hewan';
 
@@ -15,7 +17,9 @@ class RasHewan extends Model
 
 	public $timestamps = false;
 
-	protected $fillable = ['nama_ras', 'idjenis_hewan'];
+	protected $fillable = ['nama_ras', 'idjenis_hewan', 'deleted_by'];
+
+	protected $dates = ['deleted_at'];
 
 	public function jenisHewan()
 	{
@@ -25,5 +29,10 @@ class RasHewan extends Model
 	public function pets()
 	{
 		return $this->hasMany(Pet::class, 'idras_hewan');
+	}
+
+	public function deletedBy()
+	{
+		return $this->belongsTo(User::class, 'deleted_by', 'iduser');
 	}
 }

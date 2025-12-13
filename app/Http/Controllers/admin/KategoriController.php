@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -45,7 +46,7 @@ class KategoriController extends Controller
 
 	public function delete($id)
 	{
-		DB::table('kategori')->where('idkategori', $id)->delete();
+		Kategori::findOrFail($id)->delete();
 
 		return back();
 	}

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\RecordsDeletion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RekamMedis extends Model
 {
-	use HasFactory;
+	use HasFactory, SoftDeletes, RecordsDeletion;
 
 	protected $table = 'rekam_medis';
 
@@ -22,7 +24,10 @@ class RekamMedis extends Model
 		'diagnosa',
 		'idpet',
 		'dokter_pemeriksa',
+		'deleted_by',
 	];
+
+	protected $dates = ['deleted_at'];
 
 	public function pet()
 	{
@@ -37,5 +42,10 @@ class RekamMedis extends Model
 	public function detailRekamMedis()
 	{
 		return $this->hasMany(DetailRekamMedis::class, 'idrekam_medis');
+	}
+
+	public function deletedBy()
+	{
+		return $this->belongsTo(User::class, 'deleted_by', 'iduser');
 	}
 }
