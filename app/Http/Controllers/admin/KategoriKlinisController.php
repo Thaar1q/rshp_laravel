@@ -11,7 +11,7 @@ class KategoriKlinisController extends Controller
 {
 	public function index()
 	{
-		$data = DB::table('kategori_klinis')->get();
+		$data = DB::table('kategori_klinis')->whereNull('deleted_at')->get();
 
 		return view('admin.kategori-klinis.index', compact('data'));
 	}

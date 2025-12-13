@@ -11,7 +11,7 @@ class JenisHewanController extends Controller
 {
 	public function index()
 	{
-		$data = DB::table('jenis_hewan')->get();
+		$data = DB::table('jenis_hewan')->whereNull('deleted_at')->get();
 
 		return view('admin.jenis-hewan.index', compact('data'));
 	}

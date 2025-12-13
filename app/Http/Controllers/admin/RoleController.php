@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
 	public function index()
 	{
-		$data = DB::table('role')->get();
+		$data = DB::table('role')->whereNull('deleted_at')->get();
 
 		return view('admin.role.index', compact('data'));
 	}
