@@ -34,7 +34,7 @@
                     </li>
                 @endif
 
-                {{-- ADMINISTRATOR --}}
+                <!-- ADMINISTRATOR -->
                 @hasRole('administrator')
                     <li class="nav-header">ADMINISTRATOR</li>
 
@@ -158,7 +158,7 @@
                     </li>
                 @endhasRole
 
-                {{-- DOKTER --}}
+                <!-- DOKTER -->
                 @hasRole('dokter')
                     <li class="nav-header">DOKTER</li>
 
@@ -179,7 +179,7 @@
                     </li>
                 @endhasRole
 
-                {{-- PERAWAT --}}
+                <!-- PERAWAT -->
                 @hasRole('perawat')
                     <li class="nav-header">PERAWAT</li>
 
@@ -200,7 +200,7 @@
                     </li>
                 @endhasRole
 
-                {{-- RESEPSIONIS --}}
+                <!-- RESEPSIONIS -->
                 @hasRole('resepsionis')
                     <li class="nav-header">RESEPSIONIS</li>
 
@@ -229,7 +229,7 @@
                     </li>
                 @endhasRole
 
-                {{-- PEMILIK --}}
+                <!-- PEMILIK -->
                 @hasRole('pemilik')
                     <li class="nav-header">PEMILIK</li>
 

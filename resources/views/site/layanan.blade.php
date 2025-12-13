@@ -17,9 +17,9 @@
 		<h2>Layanan Kami</h2>
 		<p class="muted">Pelayanan klinis, bedah, diagnostik, perawatan, dan grooming untuk hewan.</p>
 
-		{{-- GRID 1: tiga layanan --}}
+		<!-- GRID 1: tiga layanan -->
 		<section class="services-grid" aria-label="Layanan utama - grid 1">
-			{{-- Poliklinik --}}
+			<!-- Poliklinik -->
 			<article class="service-card" aria-labelledby="s-poli">
 				<span class="service-badge">Klinis</span>
 				<h4 id="s-poli">Poliklinik</h4>
@@ -30,7 +30,7 @@
 					EKG.</small>
 			</article>
 
-			{{-- Rawat Inap --}}
+			<!-- Rawat Inap -->
 			<article class="service-card" aria-labelledby="s-inap">
 				<span class="service-badge">Perawatan</span>
 				<h4 id="s-inap">Rawat Inap</h4>
@@ -38,7 +38,7 @@
 				<small class="muted">Catatan: Persetujuan (informed consent) klien wajib sebelum tindakan.</small>
 			</article>
 
-			{{-- --}}
+			<!-- -->
 			<article class="service-card" aria-labelledby="s-bedah">
 				<span class="service-badge">Bedah</span>
 				<h4 id="s-bedah">Bedah</h4>
@@ -56,9 +56,9 @@
 
 		<hr>
 
-		{{-- GRID 2: dua layanan (1 biasa, 1 besar gabungan grooming) --}}
+		<!-- GRID 2: dua layanan (1 biasa, 1 besar gabungan grooming) -->
 		<section class="services-grid" aria-label="Layanan penunjang - grid 2">
-			{{-- Pemeriksaan Laboratorium & Imaging (normal) --}}
+			<!-- Pemeriksaan Laboratorium & Imaging (normal) -->
 			<article class="service-card" aria-labelledby="s-lab">
 				<span class="service-badge">Diagnostik</span>
 				<h4 id="s-lab">Pemeriksaan Laboratorium & Imaging</h4>
@@ -66,7 +66,7 @@
 				<small class="muted">Jenis: sitologi, dermatologi, hematologi, radiografi, ultrasonografi.</small>
 			</article>
 
-			{{-- Grooming besar: gabungan Kucing & Anjing --}}
+			<!-- Grooming besar: gabungan Kucing & Anjing -->
 			<article class="service-card span-2" aria-labelledby="s-groom">
 				<span class="service-badge">Grooming</span>
 				<h4 id="s-groom">Grooming — Kucing & Anjing</h4>
