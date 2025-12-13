@@ -37,7 +37,7 @@
 									<th>Pemilik</th>
 									<th>Dokter Pemeriksa</th>
 									<th>Diagnosa</th>
-									<th style="width: 120px">Aksi</th>
+									<th style="width: 150px">Aksi</th>
 								</tr>
 							</thead>
 
@@ -52,8 +52,8 @@
 										<td>{{ \Str::limit($rm->diagnosa, 50) }}</td>
 										<td>
 											<a href="{{ route('dokter.rekam-medis.show', $rm->idrekam_medis) }}"
-												class="btn btn-sm btn-info">
-												Lihat Detail
+												class="btn btn-sm btn-info" title="Lihat Detail">
+												<i class="bi bi-eye"></i>
 											</a>
 										</td>
 									</tr>

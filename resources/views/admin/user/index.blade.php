@@ -40,7 +40,7 @@
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th style="width: 160px">Aksi</th>
+                                    <th style="width: 150px">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,13 +67,13 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#modalEditUser{{ $user->iduser }}">
-                                                Edit
+                                                data-bs-target="#modalEditUser{{ $user->iduser }}" title="Edit">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
 
                                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                                data-bs-target="#modalHapusUser{{ $user->iduser }}">
-                                                Hapus
+                                                data-bs-target="#modalHapusUser{{ $user->iduser }}" title="Hapus">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -126,7 +126,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-check form-switch">
-                                                                        <input type="hidden" name="roles[{{ $r->idrole }}][status]" value="0">
+                                                                        <input type="hidden"
+                                                                            name="roles[{{ $r->idrole }}][status]"
+                                                                            value="0">
                                                                         <input class="form-check-input" type="checkbox"
                                                                             role="switch"
                                                                             name="roles[{{ $r->idrole }}][status]"

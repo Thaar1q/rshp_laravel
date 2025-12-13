@@ -42,7 +42,7 @@
                   <th>Pemilik</th>
                   <th>Dokter Pemeriksa</th>
                   <th>Diagnosa</th>
-                  <th style="width: 200px">Aksi</th>
+                  <th style="width: 150px">Aksi</th>
                 </tr>
               </thead>
 
@@ -56,16 +56,16 @@
                     <td>{{ $rm->dokter->user->nama ?? '-' }}</td>
                     <td>{{ \Str::limit($rm->diagnosa, 40) }}</td>
                     <td>
-                      <a href="{{ route('perawat.rekam-medis.show', $rm->idrekam_medis) }}" class="btn btn-sm btn-info">
-                        Lihat
+                      <a href="{{ route('perawat.rekam-medis.show', $rm->idrekam_medis) }}" class="btn btn-sm btn-info" title="Lihat Detail">
+                        <i class="bi bi-eye"></i>
                       </a>
                       <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                        data-bs-target="#modalEditRekamMedis{{ $rm->idrekam_medis }}">
-                        Edit
+                        data-bs-target="#modalEditRekamMedis{{ $rm->idrekam_medis }}" title="Edit">
+                        <i class="bi bi-pencil"></i>
                       </button>
                       <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#modalHapusRekamMedis{{ $rm->idrekam_medis }}">
-                        Hapus
+                        data-bs-target="#modalHapusRekamMedis{{ $rm->idrekam_medis }}" title="Hapus">
+                        <i class="bi bi-trash"></i>
                       </button>
                     </td>
                   </tr>
