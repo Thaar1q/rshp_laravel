@@ -56,6 +56,11 @@ class Pet extends Model
 		return $this->hasMany(TemuDokter::class, 'idpet');
 	}
 
+	public function rekamMedis()
+	{
+		return $this->hasMany(RekamMedis::class, 'idpet', 'idpet');
+	}
+
 	public function deletedBy()
 	{
 		return $this->belongsTo(User::class, 'deleted_by', 'iduser');
